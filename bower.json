@@ -1,0 +1,21 @@
+{
+  "name": "ADM",
+  "description": "",
+  "main": "",
+  "authors": [
+    "uul <jihad.amrulloh@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "AdminLTE": "admin-lte#^2.3.11"
+  }
+}
