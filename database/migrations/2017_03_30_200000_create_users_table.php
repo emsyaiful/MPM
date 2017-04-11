@@ -16,11 +16,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             // $table->increments('id');
             $table->uuid('id');
-            $table->integer('role_id')->unsigned();
             $table->string('name', 60);
             $table->string('email', 30)->unique();
             $table->string('password', 60);
-            $table->string('alamat');
+            $table->integer('user_status');
+            $table->uuid('division_id')->nullable();
+            $table->uuid('dealer_id')->nullable();
             $table->integer('is_active')->nullable();
             $table->dateTime('created_at');
             $table->dateTime('deleted_at')->nullable();
@@ -30,7 +31,7 @@ class CreateUsersTable extends Migration
 
             $table->primary('id');
 
-            $table->foreign('role_id')->references('id_role')->on('user_roles');
+            // $table->foreign('role_id')->references('id_role')->on('user_roles');
         });
     }
 

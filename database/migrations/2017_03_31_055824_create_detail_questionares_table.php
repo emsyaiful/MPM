@@ -17,8 +17,9 @@ class CreateDetailQuestionaresTable extends Migration
             $table->uuid('id_detail_questionare')->index();
             $table->uuid('questionare_id');
             $table->string('pertanyaan');
-            $table->string('jenis_pertanyaan');
+            $table->integer('jenis_pertanyaan');
             $table->integer('urutan');
+            $table->integer('jumlah')->nullable();
             $table->dateTime('deleted_at')->nullable();
 
             $table->primary('id_detail_questionare');

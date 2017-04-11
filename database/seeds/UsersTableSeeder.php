@@ -12,44 +12,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
- 		DB::table('users')->insert([
-        	'id' => Uuid::generate(),
-        	'role_id' => 1,
-        	'name' => 'testing',
-        	'email' => 'tes@mail.com',
-        	'password' => bcrypt('initpass'),
-        	'created_at' => Carbon::now(),
-        	'alamat' => 'jalan tes',
-        ]);
-
-        DB::table('users')->insert([
-        	'id' => Uuid::generate(),
-        	'role_id' => 2,
-        	'name' => 'testing 1',
-        	'email' => 'tes1@mail.com',
-        	'password' => bcrypt('initpass'),
-        	'created_at' => Carbon::now(),
-        	'alamat' => 'jalan tes',
-        ]);
-
-        DB::table('users')->insert([
-        	'id' => Uuid::generate(),
-        	'role_id' => 3,
-        	'name' => 'testing 2',
-        	'email' => 'tes2@mail.com',
-        	'password' => bcrypt('initpass'),
-        	'created_at' => Carbon::now(),
-        	'alamat' => 'jalan tes',
-        ]);
-
         DB::table('users')->insert([
             'id' => Uuid::generate(),
-            'role_id' => 3,
-            'name' => 'testing 3',
-            'email' => 'tes3@mail.com',
+            'name' => 'Admin',
+            'email' => 'admin@mail.com',
             'password' => bcrypt('initpass'),
+            'user_status' => 1,
             'created_at' => Carbon::now(),
-            'alamat' => 'jalan tes',
         ]);
     }
 }

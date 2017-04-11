@@ -30,12 +30,16 @@
   <![endif]-->
   <!-- jQuery 2.2.3 -->
   <script src="{{ asset('bower/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
+
   <!-- Bootstrap 3.3.6 -->
   <script src="{{ asset('bower/AdminLTE/bootstrap/js/bootstrap.min.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ asset('bower/AdminLTE/dist/js/app.min.js') }}"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+  <script src="{{ asset('bower/sweetalert/dist/sweetalert.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('bower/sweetalert/dist/sweetalert.css') }}">
   <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -115,6 +119,7 @@ document.getElementById('logout-form').submit();">Sign out</a>
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <!-- Optionally, you can add icons to the links -->
+        @if(Auth::user()->user_status === 2)
         <li class="treeview">
           <a href="#"><i class="fa fa-book"></i> <span>Questionare</span>
             <span class="pull-right-container">
@@ -126,8 +131,27 @@ document.getElementById('logout-form').submit();">Sign out</a>
             <li><a href="{{ url('questionare') }}">My Questionare</a></li>
           </ul>
         </li>
-        <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>User Management</span></a></li>
+        @elseif(Auth::user()->user_status === 1)
+        <li class="treeview">
+          <a href="#"><i class="fa fa-book"></i> <span>Data Management</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('userDivision') }}">User Division</a></li>
+            <li><a href="{{ url('dealer') }}">Dealer</a></li>
+            <li><a href="{{ url('division') }}">Division</a></li>
+            <li><a href="{{ url('md') }}">MD</a></li>
+            <li><a href="{{ url('kota') }}">Kota</a></li>
+            <li><a href="{{ url('kares') }}">Kares</a></li>
+            <li><a href="{{ url('status') }}">Dealer Status</a></li>
+          </ul>
+        </li>
+        {{-- <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>User Management</span></a></li> --}}
+        @elseif(Auth::user()->user_status === 3)
         <li><a href="{{ url('task') }}"><i class="fa fa-flag"></i> <span>Task</span></a></li>
+        @endif
         <li><a href="{{ url('change') }}/{{ Auth::id() }}"><i class="fa fa-key"></i> <span>Change password</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->

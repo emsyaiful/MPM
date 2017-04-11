@@ -2,7 +2,7 @@
 
 @section('header-title')
 	<h1>
-		Create Questionare
+		List Task
 		<small>Optional description</small>
 	</h1>
 @endsection

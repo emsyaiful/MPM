@@ -11,7 +11,7 @@ use Uuids;
 class User extends Authenticatable
 {
     use Notifiable;
-    use SoftDeletes;
+    // use SoftDeletes;
 
     /**
      * The attributes that should be mutated to dates.
@@ -27,11 +27,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'role_id', 
+        'user_status', 
         'email', 
         'password',
-        'role_id',
-        'alamat',
+        'division_id',
+        'dealer_id',
+        'status_dealer_id',
+        'md_id',
+        'is_active',
         'created_at',
         'deleted_at',
     ];
@@ -47,8 +50,11 @@ class User extends Authenticatable
 
     public $incrementing = false;
 
+    public function division() {
+        return $this->belongsTo('App\Model\Division', 'division_id', 'id_division');
+    }
 
-    public function role() {
-        return $this->belongsTo('App\Model\UserRole', 'role_id', 'id_role');
+    public function dealer() {
+        return $this->belongsTo('App\Model\Dealer', 'dealer_id', 'id_dealer');
     }
 }

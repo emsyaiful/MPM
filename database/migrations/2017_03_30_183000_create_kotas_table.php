@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserRolesTable extends Migration
+class CreateKotasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateUserRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_divisions', function (Blueprint $table) {
-            $table->uuid('id_division');
-            $table->string('kode_divisi');
-            $table->string('nama', 30);
-            $table->string('divisi', 30);
+        Schema::create('kotas', function (Blueprint $table) {
+            $table->uuid('id_kota');
+            $table->string('nama_kota');
+            $table->uuid('kares_id');
             $table->dateTime('deleted_at')->nullable();
-
-            // $table->primary('id_role');
         });
     }
 
@@ -31,6 +28,6 @@ class CreateUserRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_divisions');
+        Schema::dropIfExists('kotas');
     }
 }
