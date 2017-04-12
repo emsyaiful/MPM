@@ -8,6 +8,8 @@
 @endsection
 
 @section('content')
+@include('sweet::alert')
+
 <div class="row" style="margin-left: 1%; margin-right: 1%">
 	<div class="panel panel-danger">
 		<div class="panel-heading"></div>
@@ -34,7 +36,7 @@
 							<td>{{ $questionare->deadline_questionare }}</td>
 							<td><a href="/questionare/{{ $questionare->id_questionare }}" class="btn btn-success pull-right btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> View</a></td>
 							<td><a href="/reportExcel/{{ $questionare->id_questionare }}" class="btn btn-danger btn-xs"><i class="fa fa-download" aria-hidden="true"></i> Download</a></td>
-							{{-- <td><a class="btn btn-primary btn-xs editData" href="/questionare/{{ $questionare->id_questionare }}/edit"><span class="glyphicon glyphicon-pencil"></span></a></td> --}}
+							<td><a class="btn btn-primary btn-xs" href="/questionare/{{ $questionare->id_questionare }}/edit"><i class="glyphicon glyphicon-pencil"></i> Edit</a></td>
 							<td><button class="btn btn-danger btn-xs" onclick="deleteModal('{{ $questionare->id_questionare }}')"><i class="fa fa-trash-o fa-lg"></i></span> Delete</button></td>
 						</tr>
 					@endforeach

@@ -8,6 +8,8 @@
 @endsection
 
 @section('content')
+@include('sweet::alert')
+
 <div class="container">
 	<form style="margin-right: 7%" action="/task" method="POST" enctype="multipart/form-data">
 	{{ csrf_field() }}

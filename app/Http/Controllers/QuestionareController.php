@@ -14,6 +14,7 @@ use App\Model\DetailPenerima;
 use App\Model\DetailQuestionare;
 use App\Model\ResponsPenerima;
 use App\User;
+use Alert;
 
 class QuestionareController extends Controller
 {
@@ -37,7 +38,7 @@ class QuestionareController extends Controller
      */
     public function create()
     {
-        $data['users'] = User::get();
+        $data['users'] = User::where(array('user_status' => 3))->get();
         return view('questionare.createQuestionare', $data);
     }
 
@@ -49,17 +50,31 @@ class QuestionareController extends Controller
      */
     public function store(Request $request)
     {
+
         $id_questionare = Uuid::generate();
         $input = $request->all();
         $recipient = $request->input('recipient');
         $question = $request->input('question');
         $type = $request->input('type');
+        $jumlah = $request->input('jumlah');
+        $incrTy = 0;
+        $incrGb = 0;
+        // dd($input[1]);
 
-        for ($i=0; $i < count($input); $i++) { 
+        $data = array();
+        for ($i=0; $i < count($type); $i++) { 
             if (isset($input[$i])) {
-                $question[$i] = $input[$i];
+                $data[$i] = array(
+                    'jumlah' => $jumlah[$incrGb],
+                    'gambar' => $input[$i],
+                );
+                $incrGb++;
+            }else {
+                $data[$i] = array('pertanyaan' => $question[$incrTy]);
+                $incrTy++;
             }
         }
+        // dd($input);
 
         // tabel Questionare
         $questionare = new Questionare;
@@ -82,17 +97,23 @@ class QuestionareController extends Controller
 
         // tabel detailQuestionare
         $incr = 1;
-        foreach ($question as $key => $value) {
+        foreach ($type as $key => $value) {
             $detail = new DetailQuestionare;
             $detail->id_detail_questionare = Uuid::generate();
             $detail->questionare_id = $id_questionare;
-            $detail->pertanyaan = $value;
-            $detail->jenis_pertanyaan = $type[$key];
+            if ($value == 1) {
+                $detail->pertanyaan = $data[$key]['pertanyaan'];
+            }elseif ($value == 2) {
+                $detail->pertanyaan = $data[$key]['gambar'];
+                $detail->jumlah = $data[$key]['jumlah'];
+            }
+            $detail->jenis_pertanyaan = $value;
             $detail->urutan = $incr;
             $detail->save();
             $incr++;
         }
         
+        Alert::success('Success', 'Questionare created');
         return redirect()->route('questionare.index');
     }
 
@@ -119,7 +140,10 @@ class QuestionareController extends Controller
      */
     public function edit($id)
     {
-        echo $id;
+        $data['questionare'] = Questionare::where(array('id_questionare' => $id))->first();
+        $data['details'] = DetailQuestionare::where(array('questionare_id' => $id))->get();
+
+        return view('questionare.editQuestionare', $data);
     }
 
     /**
@@ -131,15 +155,34 @@ class QuestionareController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        // dd($request);
+        $detail = $request->input('detail');
+        $questions = $request->input('pertanyaan');
+        $gambar = $request->input('gambar');
+        $jumlah = $request->input('jumlah');
+        $incrTy = 0;
+        $incrGb = 0;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        $questionare = Questionare::where(array('id_questionare' => $id))->first();
+        $questionare->judul_questionare = $request->input('title');
+        $questionare->deadline_questionare = Carbon::createFromFormat('m/d/Y', $request->input('date'));
+        $questionare->save();
+
+        foreach ($detail as $key => $value) {
+            $detail_questionare = DetailQuestionare::where(array('id_detail_questionare' => $value))->first();
+            if ($detail_questionare->jenis_pertanyaan == 1) {
+                $detail_questionare->pertanyaan = $questions[$incrTy];
+                $incrTy++;
+            }elseif ($detail_questionare->jenis_pertanyaan == 2) {
+                $detail_questionare->pertanyaan = $gambar[$incrGb];
+                $detail_questionare->jumlah = $jumlah[$incrGb];
+                $incrGb++;
+            }
+            $detail_questionare->save();
+        }
+        Alert::success('Success', 'Questionare updated');
+        return redirect()->route('questionare.index');
+    }
     public function destroy($id)
     {
         Questionare::where(array('id_questionare' => $id))->delete();

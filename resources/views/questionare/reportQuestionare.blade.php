@@ -8,6 +8,8 @@
 @endsection
 
 @section('content')
+@include('sweet::alert')
+
 <div class="row" style="margin-left: 1%; margin-right: 1%">
   <div class="panel panel-danger">
     <div class="panel-heading"></div>

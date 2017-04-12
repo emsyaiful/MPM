@@ -335,15 +335,17 @@ class AdminController extends Controller
     }
 
     public function changePass(Request $request) {
-        $data['user'] = User::where(array('email' => 'tes@mail.com'))->first();
+        $data['user'] = User::where(array('email' => $request->input('email')))->first();
         if ($request->input('password') != $request->input('password_confirmation')) {
-            $data['status'] = 'Password did not match';
+            // $data['status'] = 'Password did not match';
 
+            Alert::error('Error', 'Password mismatch');
             return view('changePassword', $data);
         } else {
             $data['user']->password = bcrypt($request->input('password'));
         }
         
+        Alert::success('Success', 'Password changed');
         return redirect()->route('home');
         // $user = User::where(array('email' => $request->input('email')));
     }

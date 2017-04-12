@@ -8,6 +8,8 @@
 @endsection
 
 @section('content')
+@include('sweet::alert')
+
 <div class="container">
 	<form style="margin-right: 7%" action="/questionare" method="POST">
 	{{ csrf_field() }}
@@ -101,7 +103,7 @@
 				dom = '<input class="form-control" placeholder="Pertanyaan" type="text" name="question[]"/>';
 				break;
 			case 2:
-				dom = '<input class="form-control" type="text" placeholder="Keterangan Gambar" name="'+counter+'"/><input class="form-control" type="file" name="question[]"/>';
+				dom = '<input class="form-control" type="text" placeholder="Keterangan Gambar" name="'+counter+'"/> <select class="form-control" id="jumlah[]" name="jumlah[]"><option value="1">Max: 1</option><option value="2">Max: 2</option><option value="3">Max: 3</option><option value="4">Max: 4</option><option value="5">Max: 5</option><option value="6">Max: 6</option></select>';
 				break;
 			default: 
 				break;
