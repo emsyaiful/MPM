@@ -59,8 +59,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/userDivisionEdit', 'AdminController@userDivisionEdit');
 	Route::delete('/userDivision/{id}', 'AdminController@userDivisionDelete');
 
-	Route::post('/update', 'AdminController@updateUser');
-	Route::delete('/delete/{id}', 'AdminController@deleteUser');
+	// Route::post('/update', 'AdminController@updateUser');
+	// Route::delete('/delete/{id}', 'AdminController@deleteUser');
 	Route::post('/create', 'AdminController@createUser');
 	Route::get('/change/{id}', 'AdminController@changeForm');
 	Route::post('/change', 'AdminController@changePass');

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Webpatser\Uuid\Uuid;
 use View;
 use Carbon\Carbon;
-use App\Mail\verificationMail;
+// use App\Mail\verificationMail;
 use App\Model\StatusDealer;
 use App\Model\UserRole;
 use App\Model\Division;
@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function getUserDetail() {
     	$id = Auth::user();
     	if ($id->user_status == 1) {
-           return redirect()->route('userDivision');
+            return redirect()->route('userDivision');
         }elseif ($id->user_status == 2) {
             return redirect()->route('questionare.index');
         }elseif ($id->user_status == 3) {
@@ -207,7 +207,7 @@ class AdminController extends Controller
     public function dealerCreate(Request $request) {
         $password = str_random(8);
         $id_dealer = Uuid::generate();
-        $password = 'initpass';
+        // $password = 'initpass';
         
         $user = new User;
         $user->id = Uuid::generate();
@@ -227,6 +227,14 @@ class AdminController extends Controller
         $dealer->md_id = $request->input('md');
         $dealer->kota_id = $request->input('city');
         $dealer->save();
+
+        $data = array(
+            'email' => $request->input('email'),
+            'password' => $password,
+            'name' => $request->input('name'),
+        );
+
+        $res = $this->verificationMail($data);
 
         Alert::success('Success', 'Dealer created');
         return redirect()->route('dealer');
@@ -270,7 +278,7 @@ class AdminController extends Controller
 
     public function userDivisionCreate(Request $request) {
         $password = str_random(8);
-        $password = 'initpass';
+        // $password = 'initpass';
 
         $user = new User;
         $user->id = Uuid::generate();
@@ -281,7 +289,13 @@ class AdminController extends Controller
         $user->division_id = $request->input('division');
         $user->save();
 
-        // Send Email
+        $data = array(
+            'email' => $request->input('email'),
+            'password' => $password,
+            'name' => $request->input('name'),
+        );
+
+        $res = $this->verificationMail($data);
 
         Alert::success('Success', 'User division created');
         return redirect()->route('userDivision');
@@ -304,40 +318,14 @@ class AdminController extends Controller
         return redirect()->route('userDivision');
     }
 
-
-
-    public function updateUser(Request $request) {
-    	$user = User::with('role')->where(array('id' => $request->input('id')))->first();
-    	$user->name = $request->input('name');
-    	$user->alamat = $request->input('address');
-    	$user->role_id = $request->input('role');
-
-    	// print_r($user);
-    	$user->save();
-    	return redirect()->route('user');
-    }
-
-    public function createUser(Request $request) {
-    	$user = new User;
-    	$user->id = Uuid::generate();
-    	$user->name = $request->input('name');
-    	$user->email = $request->input('email');
-    	$user->alamat = $request->input('address');
-    	$user->role_id = $request->input('role');
-    	$user->password = bcrypt(str_random(8));
-    	$user->created_at = Carbon::now();
-    	$user->save();
-    	// print_r($user);
-    	return redirect()->route('user');
-    }
-
-    public function cobaMail() {
-    	$data = array('name' => 'testing' );
-    	Mail::send(['text' => 'mails.test'], $data, function($message) {
-    		$message->to('bonggol.pring@gmail.com', 'Bonggol')
-    				->subject('Laravel test mail');
+    public function verificationMail($data) {
+        // dd($data);
+    	Mail::send(['text' => 'mails.verification'], $data, function($message) use($data) {
+    		$message->to($data['email'], $data['name'])
+    				->subject('Laravel verification email');
     	});
-    	echo "Email sent";
+    	return 200;
+        return view('mails.verification', $data);
     }
 
     public function changeForm($id) {
@@ -356,7 +344,7 @@ class AdminController extends Controller
             $data['user']->password = bcrypt($request->input('password'));
         }
         
-        return redirect()->route('questionare.index');
+        return redirect()->route('home');
         // $user = User::where(array('email' => $request->input('email')));
     }
 }

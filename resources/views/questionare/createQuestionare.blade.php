@@ -48,7 +48,7 @@
 						<button type="button" class="btn btn-danger" onclick="formAdd(2)">Image</button>
 					</div>
 					<div class="col-sm-12" style="padding: 1em">
-						<div class="add-form">
+						<div class="add-form form-group">
 							
 						</div>
 					</div>
@@ -101,12 +101,12 @@
 				dom = '<input class="form-control" placeholder="Pertanyaan" type="text" name="question[]"/>';
 				break;
 			case 2:
-				dom = '<input class="form-control col-sm-6" type="text" placeholder="Keterangan Gambar" name="'+counter+'"/><input class="form-control col-sm-6" type="file" name="question[]"/>';
+				dom = '<input class="form-control" type="text" placeholder="Keterangan Gambar" name="'+counter+'"/><input class="form-control" type="file" name="question[]"/>';
 				break;
 			default: 
 				break;
 		}
-		return dom+'<input class="form-control" type="hidden" value="'+inputType+'" name="type[]"/><span class="input-group-addon remove_field"><a href="#">X</a></span>'
+		return dom+'<input style="margin-bottom: 1em" class="form-control" type="hidden" value="'+inputType+'" name="type[]"/><span class="input-group-addon remove_field"><a href="#">X</a></span>'
 	}
 	var formAdd = function(inputType) {
         $('.add-form').append('<div class="input-group">'+renderInput(inputType)+'</div>');
