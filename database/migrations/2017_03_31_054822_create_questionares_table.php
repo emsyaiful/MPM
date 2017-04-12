@@ -17,7 +17,7 @@ class CreateQuestionaresTable extends Migration
             $table->uuid('id_questionare')->index();
             $table->uuid('user_id');
             $table->string('judul_questionare');
-            $table->dateTime('deadline_questionare')->nullable();
+            $table->date('deadline_questionare')->nullable();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
 

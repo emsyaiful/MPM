@@ -19,7 +19,7 @@
 				<tr>
 					<th>#</th>
 					<th>Title</th>
-					<th>Owner</th>
+					{{-- <th>Owner</th> --}}
 					<th>Deadline</th>
 					<th>Status</th>
 					<th>Action</th>
@@ -30,7 +30,7 @@
 					<tr>
 						<td>{{ $key+1 }}</td>
 						<td>{{ $task->questionare->judul_questionare }}</td>
-						<td>{{ $task->user->name }}</td>
+						{{-- <td>{{ $task->user->name }}</td> --}}
 						<td>{{ $task->questionare->deadline_questionare }}</td>
 						<td>@if($task->status === 1)Complete @else Incomplete @endif</td>
 						<td>@if($task->status !== 1)

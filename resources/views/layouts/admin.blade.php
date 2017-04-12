@@ -119,7 +119,7 @@ document.getElementById('logout-form').submit();">Sign out</a>
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <!-- Optionally, you can add icons to the links -->
-        @if(Auth::user()->user_status === 2)
+        @if(Auth::user()->user_status === 3)
         <li class="treeview">
           <a href="#"><i class="fa fa-book"></i> <span>Questionare</span>
             <span class="pull-right-container">
@@ -149,7 +149,7 @@ document.getElementById('logout-form').submit();">Sign out</a>
           </ul>
         </li>
         {{-- <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>User Management</span></a></li> --}}
-        @elseif(Auth::user()->user_status === 3)
+        @elseif(Auth::user()->user_status === 2)
         <li><a href="{{ url('task') }}"><i class="fa fa-flag"></i> <span>Task</span></a></li>
         @endif
         <li><a href="{{ url('change') }}/{{ Auth::id() }}"><i class="fa fa-key"></i> <span>Change password</span></a></li>

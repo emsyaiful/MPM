@@ -38,7 +38,7 @@ class QuestionareController extends Controller
      */
     public function create()
     {
-        $data['users'] = User::where(array('user_status' => 3))->get();
+        $data['users'] = User::where(array('user_status' => 2))->get();
         return view('questionare.createQuestionare', $data);
     }
 
@@ -129,6 +129,7 @@ class QuestionareController extends Controller
         $data['questions'] = DetailQuestionare::where(array('questionare_id' => $id))->get();
         $data['recipients'] = DetailPenerima::with('user')->where(array('questionare_id' => $id))->get();
         $data['responses'] = ResponsPenerima::with('detailQuestionare')->where(array('questionare_id' => $id))->get();
+        // dd($data['responses']);
         return view('questionare.reportQuestionare', $data);
     }
 

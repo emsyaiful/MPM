@@ -16,19 +16,29 @@
 		<div class="panel panel-danger">
 			<div class="panel-body">
 				@foreach ($questions as $key => $question)
-					<div class="form-group">
-					{{-- {{ $question }} --}}
-						<label>{{ $question->urutan }}. {{ $question->pertanyaan }}</label>
-						@if($question->jenis_pertanyaan === '1')
+					<label>{{ $question->urutan }}. {{ $question->pertanyaan }}</label>
+					@if($question->jenis_pertanyaan === 1)
+						<div class="form-group">
 							<input type="text" name="answer[]" class="form-control" placeholder="Answer"> 
 							<input type="hidden" name="id_detail_questionare[]" class="form-control" value="{{ $question->id_detail_questionare }}">
-							<input type="hidden" name="type[]" value="1">
-						@elseif($question->jenis_pertanyaan === '2')
-							<input type="file" name="image[]" class="form-control" placeholder="Answer">
-							<input type="hidden" name="id_detail_questionare[]" class="form-control" value="{{ $question->id_detail_questionare }}">
-							<input type="hidden" name="type[]" value="2">
-						@endif
-					</div>
+							{{-- <input type="hidden" name="type[]" value="1"> --}}
+						</div>
+					@elseif($question->jenis_pertanyaan === 2)
+						<div class="form-group">
+							@for ($i = 1; $i <= 6; $i++)
+								<div class="col-md-4">
+									<div class="form-group row">
+									@if($question->jumlah < $i)
+										<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer" disabled>
+									@else
+										<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer">
+									@endif
+									</div>
+								</div>    	
+						    @endfor
+						    <input type="hidden" class="form-control" name="id_detail_questionare[]" class="form-control" value="{{ $question->id_detail_questionare }}">
+						</div>
+					@endif
 				@endforeach
 				<div class="form-group"> 
 					<div class="col-sm-10">

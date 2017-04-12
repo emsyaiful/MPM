@@ -13,6 +13,7 @@ use App\Model\DetailPenerima;
 use App\Model\DetailQuestionare;
 use App\Model\ResponsPenerima;
 use App\User;
+use Alert;
 
 class TaskController extends Controller
 {
@@ -25,7 +26,7 @@ class TaskController extends Controller
     {
         $id = Auth::id();
         $data['tasks'] = DetailPenerima::with('questionare', 'user')->where(array('user_id' => $id))->get();
-
+        
         return view('task.listTask', $data);
     }
 
@@ -47,10 +48,11 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         // $input = $request->all();
         $detail_questionare = $request->input('id_detail_questionare');
-        $type = $request->input('type');
-        $incrementImg = 0;
+        $answer = $request->input('answer');
+        $incrementImg = 1;
         $incrementAns = 0;
 
         foreach ($detail_questionare as $key => $value) {
@@ -59,19 +61,24 @@ class TaskController extends Controller
             $response->user_id = Auth::id();
             $response->questionare_id = $request->input('questionare_id');
             $response->detail_questionare_id = $value;
-            if ($type[$key] == 2) {
-                $imageName = Carbon::now()->toDateString()."_".Carbon::now()->toTimeString()."_".$request->file('image.'.$incrementImg)->getClientOriginalName();
-                $request->file('image.'.$incrementImg)->move(public_path('images/upload'), $imageName);
-                $response->response = $imageName;
-                $incrementImg++;
-            }else {
-                $response->response = $request->input('answer.'.$incrementAns);
+            $detail = DetailQuestionare::where(array('id_detail_questionare' => $value))->first();
+            if ($detail->jenis_pertanyaan == 1) {
+                $response->response = $answer[$incrementAns];
                 $incrementAns++;
+            }elseif ($detail->jenis_pertanyaan == 2) {
+                for ($i=1; $i <= 6; $i++) {
+                    $temp = $value.'_'.$i; 
+                    if (!is_null($request->file($temp))) {
+                        $imageName = Carbon::now()->toDateString()."_".Carbon::now()->toTimeString()."_".$request->file($temp)->getClientOriginalName();
+                        $request->file($temp)->move(public_path('images/upload'), $imageName);
+                        $response->{'image'.$incrementImg} = $imageName;
+                        $incrementImg++;
+                    }
+                }
             }
-            $response->created_at = Carbon::now();
+            $incrementImg = 1;
             $response->save();
         }
-        // dd($request->all());
 
         $where = array(
             'questionare_id' => $request->input('questionare_id'),
@@ -81,6 +88,7 @@ class TaskController extends Controller
         $status->status = 1;
         $status->save();
 
+        Alert::success('Success', 'Questionare answered');
         return redirect()->route('task.index');
     }
 

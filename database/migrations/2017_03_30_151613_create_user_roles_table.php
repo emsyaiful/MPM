@@ -17,7 +17,6 @@ class CreateUserRolesTable extends Migration
             $table->uuid('id_division');
             $table->string('kode_divisi');
             $table->string('nama', 30);
-            $table->string('divisi', 30);
             $table->dateTime('deleted_at')->nullable();
 
             // $table->primary('id_role');

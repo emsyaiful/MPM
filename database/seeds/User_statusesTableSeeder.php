@@ -16,11 +16,11 @@ class User_statusesTableSeeder extends Seeder
         	'role' => 'Admin',
         ]);
         DB::table('user_statuses')->insert([
-        	'id' => 2,
+        	'id' => 3,
         	'role' => 'Divisi',
         ]);
         DB::table('user_statuses')->insert([
-        	'id' => 3,
+        	'id' => 2,
         	'role' => 'Dealer',
         ]);
     }

@@ -18,7 +18,13 @@ class CreateResponsPenerimasTable extends Migration
             $table->uuid('user_id');
             $table->uuid('questionare_id');
             $table->uuid('detail_questionare_id');
-            $table->string('response');
+            $table->string('response')->nullable();
+            $table->string('image1')->nullable();
+            $table->string('image2')->nullable();
+            $table->string('image3')->nullable();
+            $table->string('image4')->nullable();
+            $table->string('image5')->nullable();
+            $table->string('image6')->nullable();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
 
