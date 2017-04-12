@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Mail;
 use Webpatser\Uuid\Uuid;
 use Carbon\Carbon;
 use App\Model\UserRole;
@@ -93,6 +94,9 @@ class QuestionareController extends Controller
             $penerima->questionare_id = $id_questionare;
             $penerima->user_id = $value;
             $penerima->save();
+            $temp = User::where(array('id' => $value))->first();
+            $recipient[$key] = array('name' => $temp['name'], 'email' => $temp['email']);
+            // $recipient[$key] = $temp['email'];
         }
 
         // tabel detailQuestionare
@@ -113,6 +117,11 @@ class QuestionareController extends Controller
             $incr++;
         }
         
+        // Send Email
+        $title = $request->input('title');
+        $res = $this->notificationMail($recipient, $title);
+
+
         Alert::success('Success', 'Questionare created');
         return redirect()->route('questionare.index');
     }
@@ -202,5 +211,17 @@ class QuestionareController extends Controller
                 $sheet->loadView('questionare.excelReport')->with('questions', $data['questions'])->with('recipients', $data['recipients'])->with('responses', $data['responses']);
             });
         })->download('xls');
+    }
+
+    public function notificationMail($recipient, $title) {
+        // dd($recipient);
+        $data = array('title' => $title);
+        Mail::send(['text' => 'mails.notification'], $data, function($message) use($recipient) {
+            foreach ($recipient as $key => $value) {
+                $message->to($value['email'], $value['name'])
+                    ->subject('Notification email');
+            }
+        });
+        return 200;
     }
 }

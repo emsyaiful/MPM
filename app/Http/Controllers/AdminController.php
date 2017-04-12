@@ -325,7 +325,7 @@ class AdminController extends Controller
     				->subject('Laravel verification email');
     	});
     	return 200;
-        return view('mails.verification', $data);
+        // return view('mails.verification', $data);
     }
 
     public function changeForm($id) {
