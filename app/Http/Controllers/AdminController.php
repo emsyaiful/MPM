@@ -26,9 +26,9 @@ class AdminController extends Controller
     	$id = Auth::user();
     	if ($id->user_status == 1) {
             return redirect()->route('userDivision');
-        }elseif ($id->user_status == 2) {
-            return redirect()->route('questionare.index');
         }elseif ($id->user_status == 3) {
+            return redirect()->route('questionare.index');
+        }elseif ($id->user_status == 2) {
             return redirect()->route('task.index');
         }
     }
