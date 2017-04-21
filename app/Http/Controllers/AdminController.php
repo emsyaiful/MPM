@@ -343,9 +343,10 @@ class AdminController extends Controller
             return view('changePassword', $data);
         } else {
             $data['user']->password = bcrypt($request->input('password'));
+            $data['user']->save();
+            Alert::success('Success', 'Password changed');
         }
         
-        Alert::success('Success', 'Password changed');
         return redirect()->route('home');
         // $user = User::where(array('email' => $request->input('email')));
     }
