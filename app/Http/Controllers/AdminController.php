@@ -205,39 +205,44 @@ class AdminController extends Controller
     }
 
     public function dealerCreate(Request $request) {
-        $password = str_random(8);
-        $id_dealer = Uuid::generate();
-        // $password = 'initpass';
-        
-        $user = new User;
-        $user->id = Uuid::generate();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($password);
-        $user->user_status = 2;
-        $user->dealer_id = $id_dealer;
-        $user->save();
+        if (User::where('email', '=', $request->input('email'))->exists()) {
+            Alert::error('Error', 'Email address already exist');
+            return redirect()->route('dealer');
+        }else{
+            $password = str_random(8);
+            $id_dealer = Uuid::generate();
+            // $password = 'initpass';
+            
+            $user = new User;
+            $user->id = Uuid::generate();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = bcrypt($password);
+            $user->user_status = 2;
+            $user->dealer_id = $id_dealer;
+            $user->save();
 
-        $dealer = new Dealer;
-        $dealer->id_dealer = $id_dealer;
-        $dealer->kode_dealer = $request->input('code');
-        $dealer->nama = $request->input('dealer');
-        $dealer->alamat = $request->input('address');
-        $dealer->status_dealer_id = $request->input('status');
-        $dealer->md_id = $request->input('md');
-        $dealer->kota_id = $request->input('city');
-        $dealer->save();
+            $dealer = new Dealer;
+            $dealer->id_dealer = $id_dealer;
+            $dealer->kode_dealer = $request->input('code');
+            $dealer->nama = $request->input('dealer');
+            $dealer->alamat = $request->input('address');
+            $dealer->status_dealer_id = $request->input('status');
+            $dealer->md_id = $request->input('md');
+            $dealer->kota_id = $request->input('city');
+            $dealer->save();
 
-        $data = array(
-            'email' => $request->input('email'),
-            'password' => $password,
-            'name' => $request->input('name'),
-        );
+            $data = array(
+                'email' => $request->input('email'),
+                'password' => $password,
+                'name' => $request->input('name'),
+            );
 
-        $res = $this->verificationMail($data);
+            $res = $this->verificationMail($data);
 
-        Alert::success('Success', 'Dealer created');
-        return redirect()->route('dealer');
+            Alert::success('Success', 'Dealer created');
+            return redirect()->route('dealer');               
+        }
     }
 
     public function dealerDelete($id) {
@@ -277,28 +282,33 @@ class AdminController extends Controller
     }
 
     public function userDivisionCreate(Request $request) {
-        $password = str_random(8);
-        // $password = 'initpass';
+        if (User::where('email', '=', $request->input('email'))->exists()) {
+            Alert::error('Error', 'Email address already exist');
+            return redirect()->route('userDivision');
+        }else{
+            $password = str_random(8);
+            // $password = 'initpass';
 
-        $user = new User;
-        $user->id = Uuid::generate();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($password);
-        $user->user_status = 3;
-        $user->division_id = $request->input('division');
-        $user->save();
+            $user = new User;
+            $user->id = Uuid::generate();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = bcrypt($password);
+            $user->user_status = 3;
+            $user->division_id = $request->input('division');
+            $user->save();
 
-        $data = array(
-            'email' => $request->input('email'),
-            'password' => $password,
-            'name' => $request->input('name'),
-        );
+            $data = array(
+                'email' => $request->input('email'),
+                'password' => $password,
+                'name' => $request->input('name'),
+            );
 
-        $res = $this->verificationMail($data);
+            $res = $this->verificationMail($data);
 
-        Alert::success('Success', 'User division created');
-        return redirect()->route('userDivision');
+            Alert::success('Success', 'User division created');
+            return redirect()->route('userDivision');
+        }
     }
 
     public function userDivisionDelete($id) {
