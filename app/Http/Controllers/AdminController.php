@@ -17,6 +17,7 @@ use App\Model\Dealer;
 use App\Model\Kares;
 use App\Model\Kota;
 use App\Model\Md;
+use App\Model\Mailer;
 use App\User;
 use Alert;
 
@@ -232,13 +233,20 @@ class AdminController extends Controller
             $dealer->kota_id = $request->input('city');
             $dealer->save();
 
-            $data = array(
-                'email' => $request->input('email'),
-                'password' => $password,
-                'name' => $request->input('name'),
-            );
+            $mail = new Mailer;
+            $mail->email = $request->input('email');
+            $mail->name = $request->input('name');
+            $mail->subject = 'MPM System verification email';
+            $mail->is_sent = 0;
+            $mail->body = 'Pendaftaran user baru sudah berhasil. Anda dapat masuk kedalam sistem dengan akun<br><br>Username:'.$request->input('email').'<br>Password:'.$password.'<br>Lakukan penggantian password pada menu yang tersedia demi keamanan.<br>Terima Kasih<br>Admin MPM<br>';
+            $mail->save();
+            // $data = array(
+            //     'email' => $request->input('email'),
+            //     'password' => $password,
+            //     'name' => $request->input('name'),
+            // );
 
-            $res = $this->verificationMail($data);
+            // $res = $this->verificationMail($data);
 
             Alert::success('Success', 'Dealer created');
             return redirect()->route('dealer');               
@@ -298,13 +306,21 @@ class AdminController extends Controller
             $user->division_id = $request->input('division');
             $user->save();
 
-            $data = array(
-                'email' => $request->input('email'),
-                'password' => $password,
-                'name' => $request->input('name'),
-            );
+            $mail = new Mailer;
+            $mail->email = $request->input('email');
+            $mail->name = $request->input('name');
+            $mail->subject = 'MPM System verification email';
+            $mail->is_sent = 0;
+            $mail->body = 'Pendaftaran user baru sudah berhasil. Anda dapat masuk kedalam sistem dengan akun<br><br>Username:'.$request->input('email').'<br>Password:'.$password.'<br>Lakukan penggantian password pada menu yang tersedia demi keamanan.<br>Terima Kasih<br>Admin MPM<br>';
+            $mail->save();
 
-            $res = $this->verificationMail($data);
+            // $data = array(
+            //     'email' => $request->input('email'),
+            //     'password' => $password,
+            //     'name' => $request->input('name'),
+            // );
+
+            // $res = $this->verificationMail($data);
 
             Alert::success('Success', 'User division created');
             return redirect()->route('userDivision');

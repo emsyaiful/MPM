@@ -14,6 +14,7 @@ use App\Model\Questionare;
 use App\Model\DetailPenerima;
 use App\Model\DetailQuestionare;
 use App\Model\ResponsPenerima;
+use App\Model\Mailer;
 use App\User;
 use Alert;
 
@@ -60,7 +61,7 @@ class QuestionareController extends Controller
         $jumlah = $request->input('jumlah');
         $incrTy = 0;
         $incrGb = 0;
-        // dd($input[1]);
+        // dd($input);
 
         $data = array();
         for ($i=0; $i < count($type); $i++) { 
@@ -95,8 +96,14 @@ class QuestionareController extends Controller
             $penerima->user_id = $value;
             $penerima->save();
             $temp = User::where(array('id' => $value))->first();
-            $recipient[$key] = array('name' => $temp['name'], 'email' => $temp['email']);
-            // $recipient[$key] = $temp['email'];
+            // $recipient[$key] = array('name' => $temp['name'], 'email' => $temp['email']);
+            $mail = new Mailer;
+            $mail->email = $temp['email'];
+            $mail->name = $temp['name'];
+            $mail->subject = 'MPM System Notification';
+            $mail->is_sent = 0;
+            $mail->body = 'Anda baru saja mendapatkan kiriman tugas untuk mengisi kuisioner.<br>Silahkan masuk dengan username dan password anda untuk mengisi kuisioner berjudul:'.$request->input('title').'<br>';
+            $mail->save();
         }
 
         // tabel detailQuestionare
@@ -118,9 +125,8 @@ class QuestionareController extends Controller
         }
         
         // Send Email
-        $title = $request->input('title');
-        $res = $this->notificationMail($recipient, $title);
-
+        // $title = $request->input('title');
+        // $res = $this->notificationMail($recipient, $title);
 
         Alert::success('Success', 'Questionare created');
         return redirect()->route('questionare.index');
