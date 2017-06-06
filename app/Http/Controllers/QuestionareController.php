@@ -56,7 +56,15 @@ class QuestionareController extends Controller
         $id_questionare = Uuid::generate();
         $input = $request->all();
         $recipient = $request->input('recipient');
+        if ($recipient == null) {
+            Alert::error('Error', 'Recipient cannot be null');
+            return Redirect::back();
+        }
         $question = $request->input('question');
+        if ($question == null) {
+            Alert::error('Error', 'Question cannot be null');
+            return Redirect::back();
+        }
         $type = $request->input('type');
         $jumlah = $request->input('jumlah');
         $incrTy = 0;
@@ -102,7 +110,7 @@ class QuestionareController extends Controller
             $mail->name = $temp['name'];
             $mail->subject = 'MPM System Notification';
             $mail->is_sent = 0;
-            $mail->body = 'Anda baru saja mendapatkan kiriman tugas untuk mengisi kuisioner.<br>Silahkan masuk dengan username dan password anda untuk mengisi kuisioner berjudul:'.$request->input('title').'<br>';
+            $mail->body = 'Anda baru saja mendapatkan kiriman tugas untuk mengisi kuisioner.<br>Silahkan masuk dengan username dan password anda untuk mengisi kuisioner berjudul:'.$request->input('title').'<br>Silahkan klik tautan berikut:<br>http://mpm-dev.net/task/'.$id_questionare.'<br>';
             $mail->save();
         }
 
