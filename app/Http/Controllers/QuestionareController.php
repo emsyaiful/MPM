@@ -41,8 +41,12 @@ class QuestionareController extends Controller
     public function create()
     {
         $data['users'] = User::with('dealer')->where(array('user_status' => 2))->get();
-        $data['users'] = $this->cleanArray($data['users']);
-        // dd($data['users']);
+        foreach ($data['users'] as $key => $value) {
+            if ($value->dealer == null) {
+                unset($data['users'][$key]);
+            }
+        }
+        // dd($data['users'][0]);
         return view('questionare.createQuestionare', $data);
     }
 
@@ -239,24 +243,5 @@ class QuestionareController extends Controller
             }
         });
         return 200;
-    }
-
-    public function cleanArray($array){
-        if (is_array($array)){
-            foreach ($array as $key => $sub_array){
-                $result = cleanArray($sub_array);
-                if ($result === false){
-                    unset($array[$key]);
-                }
-                else{
-                    $array[$key] = $result;
-                }
-            }
-        }
-
-        if (empty($array)){
-            return false;
-        }
-        return $array;
     }
 }
