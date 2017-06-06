@@ -42,6 +42,30 @@
     </div>
     <div class="row">
     	<div class="col-md-6">
+			<div class="panel panel-danger">
+				<div class="panel-heading">Add recipient</div>
+				<div class="panel-body">
+					<div class="col-sm-9 form-group">
+						<select class="form-control" id="recipient" onkeyup="searchSel()">
+							@foreach ($users as $key => $user)
+								<option value="{{ $user->id }}">{{ $user->dealer->kode_dealer }} - {{ $user->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div>
+						<button type="button" class="btn btn-success" onclick="recipientAdd()">Add</button>
+						<button type="button" class="btn btn-success" onclick="allRecipient()">All</button>
+					</div>
+
+					<div class="col-sm-12" style="padding: 1em">
+						<div class="add-recipient">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+    	</div>
+    	<div class="col-md-6">
     		<div class="panel panel-danger">
 				<div class="panel-heading">Add question</div>
 				<div class="panel-body" id="question">
@@ -51,28 +75,6 @@
 					</div>
 					<div class="col-sm-12" style="padding: 1em">
 						<div class="add-form form-group">
-							
-						</div>
-					</div>
-				</div>
-			</div>
-    	</div>
-    	<div class="col-md-6">
-			<div class="panel panel-danger">
-				<div class="panel-heading">Add recipient</div>
-				<div class="panel-body">
-					<div class="col-sm-10 form-group">
-						<select class="form-control" id="recipient">
-							@foreach ($users as $key => $user)
-								<option value="{{ $user->id }}">{{ $user->name }}</option>
-							@endforeach
-						</select>
-					</div>
-					<div>
-						<button type="button" class="btn btn-success" onclick="recipientAdd()">Add</button>
-					</div>
-					<div class="col-sm-12" style="padding: 1em">
-						<div class="add-recipient">
 							
 						</div>
 					</div>
@@ -127,5 +129,21 @@
 	$(document).on('click', '.remove_recipient', function(e) {
 		e.preventDefault(); $(this).parent('div').remove();
 	});
+
+	var allRecipient = function(e) {
+		var optionValues = [];
+		var optionNames = [];
+
+		$('#recipient option').each(function() {
+		    optionValues.push($(this).val());
+		    optionNames.push($(this).text());
+		});
+		for (var i = 0; i < optionNames.length; i++) {
+			$('.add-recipient').append('<div class="input-group"><input type="text" class="form-control" value="'+optionNames[i]+'" disabled><input type="hidden" class="form-control" name="recipient[]" value="'+optionValues[i]+'"><span class="input-group-addon remove_recipient"><a href="#">X</a></span></div>')
+		}
+		// alert(optionNames)
+	}
+
+	$("#recipient").chosen()
 </script>
 @endsection

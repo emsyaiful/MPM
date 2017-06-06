@@ -40,7 +40,8 @@ class QuestionareController extends Controller
      */
     public function create()
     {
-        $data['users'] = User::where(array('user_status' => 2))->get();
+        $data['users'] = User::with('dealer')->where(array('user_status' => 2))->get();
+        // dd($data['users']);
         return view('questionare.createQuestionare', $data);
     }
 

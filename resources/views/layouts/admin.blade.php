@@ -21,6 +21,8 @@
         apply the skin class to the body tag so the changes take effect.
   -->
   <link rel="stylesheet" href="{{ asset('bower/AdminLTE/dist/css/skins/skin-red.min.css') }}">
+  <!-- chosen css -->
+  <link rel="stylesheet" href="{{ asset('bower/chosen/chosen.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,6 +39,8 @@
   <script src="{{ asset('bower/AdminLTE/dist/js/app.min.js') }}"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+  <!-- chosen js -->
+  <script src="{{ asset('bower/chosen/chosen.jquery.js') }}"></script>
 
   <script src="{{ asset('bower/sweetalert/dist/sweetalert.min.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('bower/sweetalert/dist/sweetalert.css') }}">
