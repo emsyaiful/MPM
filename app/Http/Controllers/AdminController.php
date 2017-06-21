@@ -201,6 +201,13 @@ class AdminController extends Controller
         $data['kotas'] = Kota::get();
         $data['mds'] = Md::get();
         $data['statuses'] = StatusDealer::get();
+        foreach ($data['users'] as $key => $value) {
+            if ($value->dealer == null) {
+                // echo $key;
+                unset($data['users'][$key]);
+            }
+        }
+        // echo json_encode($data['dealers']);
         // dd($data);
         return view('admin.dealerList', $data);
     }
