@@ -238,7 +238,7 @@ class AdminController extends Controller
             $mail->name = $request->input('name');
             $mail->subject = 'MPM System verification email';
             $mail->is_sent = 0;
-            $mail->body = 'Pendaftaran user baru sudah berhasil. Anda dapat masuk kedalam sistem dengan akun<br><br>Username:'.$request->input('email').'<br>Password:'.$password.'<br>Lakukan penggantian password pada menu yang tersedia demi keamanan.<br>Terima Kasih<br>Admin MPM<br>';
+            $mail->body = 'Pendaftaran user baru sudah berhasil. Anda dapat masuk kedalam sistem dengan akun<br><br>Username:'.$request->input('email').'<br>Password:'.$password.'<br>Lakukan penggantian password pada menu yang tersedia demi keamanan dengan membuka tautan <a href="http://mpm-dev.net">berikut</a> atau http://mpm-dev.net/.<br>Terima Kasih<br>Admin MPM<br>';
             $mail->save();
             // $data = array(
             //     'email' => $request->input('email'),

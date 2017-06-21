@@ -116,7 +116,7 @@ class QuestionareController extends Controller
             $mail->name = $temp['name'];
             $mail->subject = 'MPM System Notification';
             $mail->is_sent = 0;
-            $mail->body = 'Anda baru saja mendapatkan kiriman tugas untuk mengisi kuisioner.<br>Silahkan masuk dengan username dan password anda untuk mengisi kuisioner berjudul:'.$request->input('title').'<br>Silahkan klik tautan berikut:<br>http://mpm-dev.net/task/'.$id_questionare.'<br>';
+            $mail->body = 'Anda baru saja mendapatkan kiriman tugas untuk mengisi kuisioner.<br>Silahkan masuk dengan username dan password anda untuk mengisi kuisioner berjudul:'.$request->input('title').'<br>Silahkan klik tautan <a href="http://mpm-dev.net/task'.$id_questionare.'">berikut</a> atau http://mpm-dev.net/task/'.$id_questionare.'<br>';
             $mail->save();
         }
 
