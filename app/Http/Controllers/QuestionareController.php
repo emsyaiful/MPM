@@ -120,6 +120,7 @@ class QuestionareController extends Controller
             $mail->save();
         }
 
+
         // tabel detailQuestionare
         $incr = 1;
         foreach ($type as $key => $value) {

@@ -233,6 +233,7 @@ class AdminController extends Controller
             $dealer->kota_id = $request->input('city');
             $dealer->save();
 
+
             $mail = new Mailer;
             $mail->email = $request->input('email');
             $mail->name = $request->input('name');
