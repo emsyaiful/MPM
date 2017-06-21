@@ -36,7 +36,7 @@
 				<tbody>
 					@foreach($users as $key=>$value)
 						<tr>
-							<td>{{ $key+1 }}</td>
+							<td>{{ $key }}</td>
 							<td>{{ $value->name }}</td>
 							<td>{{ $value->email }}</td>
 							<td>{{ $value->dealer->kode_dealer }}</td>
