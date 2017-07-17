@@ -67,10 +67,35 @@
     	</div>
     	<div class="col-md-6">
     		<div class="panel panel-danger">
+				<div class="panel-heading">Add viewer</div>
+				<div class="panel-body">
+					<div class="col-sm-9 form-group">
+						<select class="form-control" id="viewer" onkeyup="searchSel()">
+							@foreach ($viewers as $key => $viewer)
+								<option value="{{ $viewer->id }}">{{ $viewer->division->kode_divisi }} - {{ $viewer->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div>
+						<button type="button" class="btn btn-success" onclick="viewerAdd()">Add</button>
+						<button type="button" class="btn btn-success" onclick="allViewer()">All</button>
+					</div>
+
+					<div class="col-sm-12" style="padding: 1em">
+						<div class="add-viewer">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+    	</div>
+    </div>
+    <div class="row">
+    	<div class="panel panel-danger">
 				<div class="panel-heading">Add question</div>
 				<div class="panel-body" id="question">
 					<div class="btn-group inline pull-right">
-						<button type="button" class="btn btn-success" onclick="formAdd(1)">Form</button>
+						<button type="button" class="btn btn-success" onclick="formAdd(1)">Question</button>
 						<button type="button" class="btn btn-danger" onclick="formAdd(2)">Image</button>
 					</div>
 					<div class="col-sm-12" style="padding: 1em">
@@ -81,7 +106,6 @@
 				</div>
 			</div>
     	</div>
-    </div>
 	</form>
 </div>
 
@@ -143,7 +167,32 @@
 		}
 		// alert(optionNames)
 	}
-
 	$("#recipient").chosen()
+
+	var viewerAdd = function(e) {
+		var nameViewer = $('#viewer').find(':selected').text();
+		var idViewer = $('#viewer').find(':selected').val();
+		// console.log(idViewer);
+		$('.add-viewer').append('<div class="input-group"><input type="text" class="form-control" value="'+nameViewer+'" disabled><input type="hidden" class="form-control" name="viewer[]" value="'+idViewer+'"><span class="input-group-addon remove_viewer"><a href="#">X</a></span></div>')
+	}
+	$(document).on('click', '.remove_viewer', function(e) {
+		e.preventDefault(); $(this).parent('div').remove();
+	});
+
+	var allViewer = function(e) {
+		var optionValues = [];
+		var optionNames = [];
+
+		$('#viewer option').each(function() {
+		    optionValues.push($(this).val());
+		    optionNames.push($(this).text());
+		});
+		for (var i = 0; i < optionNames.length; i++) {
+			$('.add-viewer').append('<div class="input-group"><input type="text" class="form-control" value="'+optionNames[i]+'" disabled><input type="hidden" class="form-control" name="viewer[]" value="'+optionValues[i]+'"><span class="input-group-addon remove_viewer"><a href="#">X</a></span></div>')
+		}
+		// alert(optionValues)
+	}
+
+	$("#viewer").chosen()
 </script>
 @endsection

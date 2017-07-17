@@ -133,6 +133,7 @@ document.getElementById('logout-form').submit();">Sign out</a>
           <ul class="treeview-menu">
             <li><a href="{{ url('questionare/create') }}">New Questionare</a></li>
             <li><a href="{{ url('questionare') }}">My Questionare</a></li>
+            <li><a href="{{ url('questionare/other') }}">Other Questionare</a></li>
           </ul>
         </li>
         @elseif(Auth::user()->user_status == '1')

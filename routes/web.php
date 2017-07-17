@@ -66,6 +66,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/change', 'AdminController@changePass');
 
 	// Route Questionare
+	Route::get('questionare/other', 'QuestionareController@otherQuestionare');
+	Route::get('questionare/other/{id}', 'QuestionareController@viewOtherQuestionare');
 	Route::resource('questionare', 'QuestionareController');
 	Route::resource('task', 'TaskController');
 	Route::get('/reportExcel/{id}', 'QuestionareController@reportExcel');

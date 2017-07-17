@@ -15,6 +15,7 @@ use App\Model\DetailPenerima;
 use App\Model\DetailQuestionare;
 use App\Model\ResponsPenerima;
 use App\Model\Mailer;
+use App\Model\Viewers;
 use App\User;
 use Alert;
 
@@ -33,6 +34,20 @@ class QuestionareController extends Controller
         return view('questionare.listQuestionare', $data);
     }
 
+    public function otherQuestionare(){
+        $data['questionares'] = Viewers::with('user')->where(array('user_id' => Auth::id()))->get();
+        foreach ($data['questionares'] as $key => $value) {
+            $data['questionares'][$key]['owner'] = User::where(array('id' => $value->owner))->first();
+        }
+        // dd($data);
+        return view('questionare.listOtherQuestionare', $data);
+    }
+
+    public function viewOtherQuestionare($id){
+        $data['questions'] = DetailQuestionare::where(array('questionare_id' => $id))->orderBy('urutan')->get();
+        return view('questionare.viewOtherQuestionare', $data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -41,6 +56,7 @@ class QuestionareController extends Controller
     public function create()
     {
         $data['users'] = User::with('dealer')->where(array('user_status' => 2))->get();
+        $data['viewers'] = User::with('division')->where(array('user_status' => 3))->get();
         foreach ($data['users'] as $key => $value) {
             if ($value->dealer == null) {
                 unset($data['users'][$key]);
@@ -69,6 +85,14 @@ class QuestionareController extends Controller
         $question = $request->input('question');
         if ($question == null) {
             Alert::error('Error', 'Question cannot be null');
+            return Redirect::back();
+        }
+        if ($request->input('title') == null) {
+            Alert::error('Error', 'Title cannot be null');
+            return Redirect::back();
+        }
+        if ($request->input('date') == null) {
+            Alert::error('Error', 'Date cannot be null');
             return Redirect::back();
         }
         $type = $request->input('type');
@@ -103,6 +127,18 @@ class QuestionareController extends Controller
         // tabel detailPenerima
         // dd($questionare);
 
+        $viewer = $request->input('viewer');
+        if ($viewer != null) {
+            foreach ($viewer as $key => $value) {
+                $view = new Viewers;
+                $view->id_viewers = Uuid::generate();
+                $view->questionare_id = $id_questionare;
+                $view->user_id = $value;
+                $view->owner = Auth::id();
+                $view->save();
+            }
+        }
+
         foreach ($recipient as $key => $value) {
             $penerima = new DetailPenerima;
             $penerima->id_detail_penerima = Uuid::generate();
@@ -117,7 +153,7 @@ class QuestionareController extends Controller
             $mail->subject = 'MPM System Notification';
             $mail->is_sent = 0;
             $mail->body = 'Anda baru saja mendapatkan kiriman tugas untuk mengisi kuisioner.<br>Silahkan masuk dengan username dan password anda untuk mengisi kuisioner berjudul:'.$request->input('title').'<br>Silahkan klik tautan <a href="http://mpm-dev.net/task'.$id_questionare.'">berikut</a> atau http://mpm-dev.net/task/'.$id_questionare.'<br>';
-            $mail->save();
+            // $mail->save();
         }
 
 
@@ -138,10 +174,6 @@ class QuestionareController extends Controller
             $detail->save();
             $incr++;
         }
-        
-        // Send Email
-        // $title = $request->input('title');
-        // $res = $this->notificationMail($recipient, $title);
 
         Alert::success('Success', 'Questionare created');
         return redirect()->route('questionare.index');
@@ -219,6 +251,7 @@ class QuestionareController extends Controller
         Questionare::where(array('id_questionare' => $id))->delete();
         DetailQuestionare::where(array('questionare_id' => $id))->delete();
         DetailPenerima::where(array('questionare_id' => $id))->delete();
+        Viewers::where(array('questionare_id' => $id))->delete();
 
         return redirect()->route('questionare.index');
     }
