@@ -32,8 +32,8 @@
 						<td>{{ $task->questionare->judul_questionare }}</td>
 						{{-- <td>{{ $task->user->name }}</td> --}}
 						<td>{{ $task->questionare->deadline_questionare }}</td>
-						<td>@if($task->status === 1)Complete @else Incomplete @endif</td>
-						<td>@if($task->status !== 1)
+						<td>@if($task->status == 1)Complete @else Incomplete @endif</td>
+						<td>@if($task->status != 1)
 							<a class="btn btn-primary btn-xs" href="/task/{{ $task->questionare_id }}"><i class="fa fa-pencil" aria-hidden="true"></i> Open</a></td>
 						 @endif
 					</tr>
