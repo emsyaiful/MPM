@@ -17,13 +17,13 @@
 			<div class="panel-body">
 				@foreach ($questions as $key => $question)
 					<label>{{ $question->urutan }}. {{ $question->pertanyaan }}</label>
-					@if($question->jenis_pertanyaan === 1)
+					@if($question->jenis_pertanyaan == 1)
 						<div class="form-group">
 							<input type="text" name="answer[]" class="form-control" placeholder="Answer"> 
 							<input type="hidden" name="id_detail_questionare[]" class="form-control" value="{{ $question->id_detail_questionare }}">
 							{{-- <input type="hidden" name="type[]" value="1"> --}}
 						</div>
-					@elseif($question->jenis_pertanyaan === 2)
+					@elseif($question->jenis_pertanyaan == 2)
 						<div class="form-group">
 							@for ($i = 1; $i <= 6; $i++)
 								<div class="col-md-4">
