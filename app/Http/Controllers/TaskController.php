@@ -25,8 +25,18 @@ class TaskController extends Controller
     public function index()
     {
         $id = Auth::id();
+        $now = Carbon::now();
         $data['tasks'] = DetailPenerima::with('questionare', 'user')->where(array('user_id' => $id))->get();
-        
+        foreach ($data['tasks'] as $key => $value) {
+            new Carbon($value->questionare->deadline_questionare);
+            if ($now > $value->questionare->deadline_questionare) {
+                $questionare = Questionare::where(array('id_questionare' => $value->questionare->id_questionare))->first();
+                if ($questionare->is_expired != 1) {
+                    $questionare->is_expired = 1;
+                    $questionare->save();
+                }
+            }
+        }
         return view('task.listTask', $data);
     }
 
@@ -100,7 +110,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $data['questions'] = DetailQuestionare::where(array('questionare_id' => $id))->orderBy('urutan')->get();
+        $data['questions'] = DetailQuestionare::with('questionare')->where(array('questionare_id' => $id))->orderBy('urutan')->get();
         return view('task.responseTask', $data);
     }
 

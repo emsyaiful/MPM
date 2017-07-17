@@ -20,4 +20,8 @@ class DetailQuestionare extends Model
 
     public $timestamps = false;
     public $incrementing = false;
+
+    public function questionare() {
+        return $this->belongsTo('App\Model\Questionare', 'questionare_id', 'id_questionare');
+    }
 }
