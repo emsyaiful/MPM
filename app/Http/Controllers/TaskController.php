@@ -101,7 +101,6 @@ class TaskController extends Controller
     public function show($id)
     {
         $data['questions'] = DetailQuestionare::where(array('questionare_id' => $id))->orderBy('urutan')->get();
-
         return view('task.responseTask', $data);
     }
 
@@ -113,7 +112,10 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['questions'] = DetailQuestionare::where(array('questionare_id' => $id))->orderBy('urutan')->get();
+        $data['answer'] = ResponsPenerima::where(array('questionare_id' => $id))->get();
+        // dd($data);
+        return view('task.editTask', $data);
     }
 
     /**
@@ -125,7 +127,34 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $detail_questionare = $request->input('id_detail_questionare');
+        $answer = $request->input('answer');
+        $incrementImg = 1;
+        $incrementAns = 0;
+
+        foreach ($detail_questionare as $key => $value) {
+            $response = ResponsPenerima::where(array('questionare_id' => $request->input('questionare_id')))->get();
+            $detail = DetailQuestionare::where(array('id_detail_questionare' => $value))->first();
+            if ($detail->jenis_pertanyaan == 1) {
+                $response[$key]->response = $answer[$incrementAns];
+                $incrementAns++;
+            }elseif ($detail->jenis_pertanyaan == 2) {
+                for ($i=1; $i <= 6; $i++) {
+                    $temp = $value.'_'.$i; 
+                    if (!is_null($request->file($temp))) {
+                        $imageName = Carbon::now()->toDateString()."_".Carbon::now()->toTimeString()."_".$request->file($temp)->getClientOriginalName();
+                        $request->file($temp)->move(public_path('images/upload'), $imageName);
+                        $response[$key]->{'image'.$incrementImg} = $imageName;
+                        $incrementImg++;
+                    }
+                }
+            }
+            $incrementImg = 1;
+            $response[$key]->save();
+        }
+
+        Alert::success('Success', 'Questionare answered');
+        return redirect()->route('task.index');
     }
 
     /**

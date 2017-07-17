@@ -34,8 +34,11 @@
 						<td>{{ $task->questionare->deadline_questionare }}</td>
 						<td>@if($task->status == 1)Complete @else Incomplete @endif</td>
 						<td>@if($task->status != 1)
-							<a class="btn btn-primary btn-xs" href="/task/{{ $task->questionare_id }}"><i class="fa fa-pencil" aria-hidden="true"></i> Open</a></td>
-						 @endif
+								<a class="btn btn-success btn-xs" href="/task/{{ $task->questionare_id }}"><i class="fa fa-pencil" aria-hidden="true"></i> Open</a>
+							@else
+								<a class="btn btn-primary btn-xs" href="/task/{{ $task->questionare_id }}/edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+							@endif
+						</td>
 					</tr>
 				@endforeach
 	  		</tbody>

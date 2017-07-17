@@ -11,15 +11,16 @@
 @include('sweet::alert')
 
 <div class="container">
-	<form style="margin-right: 7%" action="/task" method="POST" enctype="multipart/form-data">
+	<form style="margin-right: 7%" action="/task/{{ $answer[0]->questionare_id }}" method="POST" enctype="multipart/form-data">
 	{{ csrf_field() }}
+	{{ method_field('PUT') }}
 		<div class="panel panel-danger">
 			<div class="panel-body">
 				@foreach ($questions as $key => $question)
 					<label>{{ $question->urutan }}. {{ $question->pertanyaan }}</label>
 					@if($question->jenis_pertanyaan == 1)
 						<div class="form-group">
-							<input type="text" name="answer[]" class="form-control" placeholder="Answer"> 
+							<input type="text" name="answer[]" class="form-control" value="{{ $answer[$key]->response }}"> 
 							<input type="hidden" name="id_detail_questionare[]" class="form-control" value="{{ $question->id_detail_questionare }}">
 							{{-- <input type="hidden" name="type[]" value="1"> --}}
 						</div>
@@ -31,6 +32,9 @@
 									@if($question->jumlah < $i)
 										{{--<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer" disabled>--}}
 									@else
+										@if(!empty($answer[$key]->{'image'.$i}))
+											<img src="/images/upload/{{ $answer[$key]->{'image'.$i} }}" width="50px">
+										@endif
 										<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer">
 									@endif
 									</div>
