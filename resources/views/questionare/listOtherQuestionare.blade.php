@@ -31,9 +31,9 @@
 			  		@foreach ($questionares as $key => $questionare)
 						<tr>
 							<td>{{ $key+1 }}</td>
-							<td>{{ $questionare->judul_questionare }}</td>
+							<td>{{ $questionare->questionare->judul_questionare }}</td>
 							<td>{{ $questionare->owner->name }}</td>
-							<td>{{ $questionare->deadline_questionare }}</td>
+							<td>{{ $questionare->questionare->deadline_questionare }}</td>
 							<td><a href="/questionare/other/{{ $questionare->questionare_id }}" class="btn btn-success pull-left btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> View</a></td>
 						</tr>
 					@endforeach

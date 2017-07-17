@@ -35,7 +35,7 @@ class QuestionareController extends Controller
     }
 
     public function otherQuestionare(){
-        $data['questionares'] = Viewers::with('user')->where(array('user_id' => Auth::id()))->get();
+        $data['questionares'] = Viewers::with('user', 'questionare')->where(array('user_id' => Auth::id()))->get();
         foreach ($data['questionares'] as $key => $value) {
             $data['questionares'][$key]['owner'] = User::where(array('id' => $value->owner))->first();
         }
