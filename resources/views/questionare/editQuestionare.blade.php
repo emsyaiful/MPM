@@ -41,8 +41,8 @@
 			<div class="panel panel-danger">
 				<div class="panel-body">
 					<div class="form-horizontal">
-						@foreach($details as $key=>$value)
-							@if($value->jenis_pertanyaan === 1)
+						@foreach($details as $key => $value)
+							@if($value->jenis_pertanyaan == 1)
 								<div class="form-group">
 									<label class="control-label col-sm-2" for="pertanyaan">Pertanyaan {{ $value->urutan }}:</label>
 									<div class="col-sm-10">
@@ -50,7 +50,7 @@
 										<input type="hidden" name="detail[]" value="{{ $value->id_detail_questionare }}">
 									</div>
 								</div>
-							@elseif($value->jenis_pertanyaan === 2)
+							@elseif($value->jenis_pertanyaan == 2)
 								<div class="form-group">
 									<label class="control-label col-sm-2" for="pertanyaan">Pertanyaan {{ $value->urutan }}:</label>
 									<div class="col-sm-8">
@@ -60,7 +60,7 @@
 									<div class="col-sm-2">
 										<select class="form-control" name="jumlah[]" id="jumlah">				
 										    @for ($i = 1; $i <= 6; $i++)
-										    	@if($value->jumlah === $i)
+										    	@if($value->jumlah == $i)
 										        	<option value="{{ $i }}" selected>Max: {{ $i }}</option>
 										        @else
 										      		<option value="{{ $i }}">Max: {{ $i }}</option>
