@@ -30,7 +30,7 @@
 							<td>{{ $key+1 }}</td>
 							<td>{{ $recipient->user->name }}</td>
 							@foreach($responses as $key2 => $response)
-								@if($response->detailQuestionare->jenis_pertanyaan === 2)
+								@if($response->detailQuestionare->jenis_pertanyaan == 2)
 									<td>
 									@for($i = 1; $i <= 6; $i++)
 										@if($response->{'image'.$i} != null)
@@ -38,7 +38,7 @@
 										@endif
 									@endfor
 									</td>
-								@elseif($response->detailQuestionare->jenis_pertanyaan === 1)
+								@elseif($response->detailQuestionare->jenis_pertanyaan == 1)
 									<td>{{ $response->response }}</td>
 								@endif
 							@endforeach
