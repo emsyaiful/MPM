@@ -257,7 +257,9 @@ class QuestionareController extends Controller
     }
 
     public function reportExcel($id) {
-        Excel::create('Report Questionare', function($excel) use ($id){
+        $title = Questionare::where(array('id_questionare' => $id))->first();
+        $title = 'Report Questionare - '.$title->judul_questionare;
+        Excel::create($title, function($excel) use ($id){
             $data['questions'] = DetailQuestionare::where(array('questionare_id' => $id))->get();
             $data['recipients'] = DetailPenerima::with('user')->where(array('questionare_id' => $id))->get();
             $data['responses'] = ResponsPenerima::with('detailQuestionare')->where(array('questionare_id' => $id))->get();
