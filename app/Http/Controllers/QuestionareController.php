@@ -30,7 +30,7 @@ class QuestionareController extends Controller
     {
         // list my questionare
 
-        $data['questionares'] = Questionare::with('user')->where(array('user_id' => Auth::id()))->get();
+        $data['questionares'] = Questionare::with('user')->where(array('user_id' => Auth::id()))->orderBy('deadline_questionare', 'desc')->get();
         return view('questionare.listQuestionare', $data);
     }
 
@@ -204,6 +204,7 @@ class QuestionareController extends Controller
     public function edit($id)
     {
         $data['questionare'] = Questionare::where(array('id_questionare' => $id))->first();
+        $data['questionare']->deadline_questionare = date('d/m/Y', strtotime($data['questionare']->deadline_questionare));
         $data['details'] = DetailQuestionare::where(array('questionare_id' => $id))->get();
 
         return view('questionare.editQuestionare', $data);
