@@ -34,6 +34,7 @@
 							<td>{{ $questionare->questionare->judul_questionare }}</td>
 							<td>{{ $questionare->owner->name }}</td>
 							<td>{{ $questionare->questionare->deadline_questionare }}</td>
+							<td><a href="/reportExcel/{{ $questionare->questionare_id }}" class="btn btn-danger btn-xs"><i class="fa fa-download" aria-hidden="true"></i> Download</a></td>
 							<td><a href="/questionare/{{ $questionare->questionare_id }}" class="btn btn-primary pull-right btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> Report</a></td>
 							<td><a href="/questionare/other/{{ $questionare->questionare_id }}" class="btn btn-success pull-left btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> View</a></td>
 						</tr>
