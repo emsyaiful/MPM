@@ -31,7 +31,7 @@
 									@if($question->jumlah < $i)
 										{{--<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer" disabled>--}}
 									@else
-										<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer" @if($question->questionare->is_expired == 1) disabled @endif>
+										<input type="file" id="input{{ $i }}" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control form_gambar" placeholder="Answer" @if($question->questionare->is_expired == 1) disabled @endif>
 									@endif
 									</div>
 								</div>    	
@@ -50,4 +50,18 @@
 		</div>
 	</form>
 </div>
+<script>
+	$('.form_gambar').on('change', function() {
+		if (this.files[0].size > 1000000) {
+			swal({
+	            title: "Error",
+	            text: "File size exceed 1MB",
+	            type: "error",
+	            timer: 3000
+	        })
+	        var id = this.getAttribute('id')
+	        document.getElementById(id).value = ""
+		}
+	});
+</script>
 @endsection

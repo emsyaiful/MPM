@@ -14,6 +14,7 @@
 				<td>{{ $key+1 }}</td>
 				<td>{{ $recipient->user->name }}</td>
 				@foreach($responses as $key2 => $response)
+				@if($recipient->user_id == $response->user_id)
 					@if($response->detailQuestionare->jenis_pertanyaan == 2)
 						<td>
 						@for($i = 1; $i <= 6; $i++)
@@ -25,6 +26,7 @@
 					@elseif($response->detailQuestionare->jenis_pertanyaan == 1)
 						<td>{{ $response->response }}</td>
 					@endif
+				@endif
 				@endforeach
 			</tr>
 		@endforeach

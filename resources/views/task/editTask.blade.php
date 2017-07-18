@@ -35,7 +35,7 @@
 										@if(!empty($answer[$key]->{'image'.$i}))
 											<img src="/images/upload/{{ $answer[$key]->{'image'.$i} }}" width="50px">
 										@endif
-										<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer">
+										<input type="file" id="input{{ $i }}" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control form_gambar" placeholder="Answer">
 									@endif
 									</div>
 								</div>    	
@@ -54,4 +54,18 @@
 		</div>
 	</form>
 </div>
+<script>
+	$('.form_gambar').on('change', function() {
+		if (this.files[0].size > 1000000) {
+			swal({
+	            title: "Error",
+	            text: "File size exceed 1MB",
+	            type: "error",
+	            timer: 3000
+	        })
+	        var id = this.getAttribute('id')
+	        document.getElementById(id).value = ""
+		}
+	});
+</script>
 @endsection
