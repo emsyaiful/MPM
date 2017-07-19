@@ -2,7 +2,7 @@
 
 @section('header-title')
 	<h1>
-		Create Questionare
+		Questionare Form
 		<small>Optional description</small>
 	</h1>
 @endsection

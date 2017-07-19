@@ -187,7 +187,7 @@ document.getElementById('logout-form').submit();">Sign out</a>
       PT. Mitra Pinasthika Mulia
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2016 <a href="#">MPM-DEV</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Add the sidebar's background. This div must be placed
