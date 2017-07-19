@@ -19,7 +19,7 @@
 					<label>{{ $question->urutan }}. {{ $question->pertanyaan }}</label>
 					@if($question->jenis_pertanyaan == 1)
 						<div class="form-group">
-							<input type="text" name="answer[]" class="form-control" placeholder="Answer" @if($question->questionare->is_expired == 1) disabled @endif> 
+							<input type="text" name="answer[]" class="form-control" placeholder="Answer" @if($expired == 1) disabled @endif> 
 							<input type="hidden" name="id_detail_questionare[]" class="form-control" value="{{ $question->id_detail_questionare }}">
 							{{-- <input type="hidden" name="type[]" value="1"> --}}
 						</div>
@@ -31,7 +31,7 @@
 									@if($question->jumlah < $i)
 										{{--<input type="file" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control" placeholder="Answer" disabled>--}}
 									@else
-										<input type="file" id="input{{ $i }}" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control form_gambar" placeholder="Answer" @if($question->questionare->is_expired == 1) disabled @endif>
+										<input type="file" id="input{{ $i }}" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control form_gambar" placeholder="Answer" @if($expired == 1) disabled @endif>
 									@endif
 									</div>
 								</div>    	
@@ -43,7 +43,7 @@
 				<div class="form-group"> 
 					<div class="col-sm-10">
 						<input type="hidden" name="questionare_id" class="form-control" value="{{ $question->questionare_id }}">
-						<button type="submit" class="btn btn-default" @if($question->questionare->is_expired == 1) disabled @endif>Submit</button>
+						<button type="submit" class="btn btn-default" @if($expired == 1) disabled @endif>Submit</button>
 					</div>
 				</div>
 			</div>
