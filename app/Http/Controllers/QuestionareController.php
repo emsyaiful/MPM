@@ -229,7 +229,7 @@ class QuestionareController extends Controller
 
         $questionare = Questionare::where(array('id_questionare' => $id))->first();
         $questionare->judul_questionare = $request->input('title');
-        $questionare->deadline_questionare = Carbon::createFromFormat('m/d/Y', $request->input('date'));
+        $questionare->deadline_questionare = Carbon::createFromFormat('d/m/Y', $request->input('date'));
         $questionare->save();
 
         foreach ($detail as $key => $value) {
