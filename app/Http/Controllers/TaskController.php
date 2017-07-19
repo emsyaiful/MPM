@@ -103,7 +103,7 @@ class TaskController extends Controller
         $questionare = Questionare::where(array('id_questionare' => $id))->first();
         $now = Carbon::now();
         $temp = new Carbon($questionare->deadline_questionare);
-        if ($now->toDateString() < $temp->toDateString()) {
+        if ($now->toDateString() > $temp->toDateString()) {
             $data['expired'] = 1;
         }else {
             $data['expired'] = 0;
@@ -124,7 +124,7 @@ class TaskController extends Controller
         $questionare = Questionare::where(array('id_questionare' => $id))->first();
         $now = Carbon::now();
         $temp = new Carbon($questionare->deadline_questionare);
-        if ($now->toDateString() < $temp->toDateString()) {
+        if ($now->toDateString() > $temp->toDateString()) {
             $data['expired'] = 1;
         }else {
             $data['expired'] = 0;
