@@ -154,7 +154,7 @@ class TaskController extends Controller
                     if (!is_null($request->file($temp))) {
                         $imageName = Carbon::now()->toDateString()."_".Carbon::now()->toTimeString()."_".$request->file($temp)->getClientOriginalName();
                         $request->file($temp)->move(public_path('images/upload'), $imageName);
-                        $response[$key]->{'image'.$incrementImg} = $imageName;
+                        $response[$key]->{'image'.$i} = $imageName;
                         $incrementImg++;
                     }
                 }
