@@ -102,11 +102,11 @@ class TaskController extends Controller
         $data['questions'] = DetailQuestionare::with('questionare')->where(array('questionare_id' => $id))->orderBy('urutan')->get();
         $questionare = Questionare::where(array('id_questionare' => $id))->first();
         $now = Carbon::now();
-        new Carbon($questionare->deadline_questionare);
-        if ($now <= $questionare->deadline_questionare) {
-            $data['expired'] = 0;
-        }else {
+        $temp = new Carbon($questionare->deadline_questionare);
+        if ($now->toDateString() < $temp->toDateString()) {
             $data['expired'] = 1;
+        }else {
+            $data['expired'] = 0;
         }
         return view('task.responseTask', $data);
     }
@@ -123,11 +123,11 @@ class TaskController extends Controller
         $data['answer'] = ResponsPenerima::where(array('questionare_id' => $id))->get();
         $questionare = Questionare::where(array('id_questionare' => $id))->first();
         $now = Carbon::now();
-        new Carbon($questionare->deadline_questionare);
-        if ($now <= $questionare->deadline_questionare) {
-            $data['expired'] = 0;
-        }else {
+        $temp = new Carbon($questionare->deadline_questionare);
+        if ($now->toDateString() < $temp->toDateString()) {
             $data['expired'] = 1;
+        }else {
+            $data['expired'] = 0;
         }
         return view('task.editTask', $data);
     }
