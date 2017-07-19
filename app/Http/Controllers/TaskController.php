@@ -25,14 +25,7 @@ class TaskController extends Controller
     public function index()
     {
         $id = Auth::id();
-        $now = Carbon::now();
         $data['tasks'] = DetailPenerima::with('questionare', 'user')->where(array('user_id' => $id))->get();
-        foreach ($data['tasks'] as $key => $value) {
-            new Carbon($value->questionare->deadline_questionare);
-            if ($now > $value->questionare->deadline_questionare) {
-                $data['expired'] = 1;
-            }
-        }
         return view('task.listTask', $data);
     }
 
@@ -110,10 +103,10 @@ class TaskController extends Controller
         $questionare = Questionare::where(array('id_questionare' => $id))->first();
         $now = Carbon::now();
         new Carbon($questionare->deadline_questionare);
-        if ($now > $questionare->deadline_questionare) {
-            $data['expired'] = 1;
-        }else {
+        if ($now <= $questionare->deadline_questionare) {
             $data['expired'] = 0;
+        }else {
+            $data['expired'] = 1;
         }
         return view('task.responseTask', $data);
     }
@@ -131,10 +124,10 @@ class TaskController extends Controller
         $questionare = Questionare::where(array('id_questionare' => $id))->first();
         $now = Carbon::now();
         new Carbon($questionare->deadline_questionare);
-        if ($now > $questionare->deadline_questionare) {
-            $data['expired'] = 1;
-        }else {
+        if ($now <= $questionare->deadline_questionare) {
             $data['expired'] = 0;
+        }else {
+            $data['expired'] = 1;
         }
         return view('task.editTask', $data);
     }
