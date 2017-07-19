@@ -20,7 +20,7 @@
 					<label>{{ $question->urutan }}. {{ $question->pertanyaan }}</label><br>
 					@if($question->jenis_pertanyaan == 1)
 						<div class="form-group">
-							<input type="text" name="answer[]" class="form-control" value="{{ $answer[$key]->response }}"> 
+							<input type="text" name="answer[]" class="form-control" value="{{ $answer[$key]->response }}" @if($question->questionare->is_expired == 1) disabled @endif> 
 							<input type="hidden" name="id_detail_questionare[]" class="form-control" value="{{ $question->id_detail_questionare }}">
 							{{-- <input type="hidden" name="type[]" value="1"> --}}
 						</div>
@@ -35,7 +35,7 @@
 											@if(!empty($answer[$key]->{'image'.$i}))
 												<img src="/images/upload/{{ $answer[$key]->{'image'.$i} }}" width="50px">
 											@endif
-											<input type="file" id="input{{ $i }}" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control form_gambar" placeholder="Answer">
+											<input type="file" id="input{{ $i }}" name="{{ $question->id_detail_questionare }}_{{ $i }}" class="form-control form_gambar" placeholder="Answer" @if($question->questionare->is_expired == 1) disabled @endif>
 										</div>
 									</div>
 									@endif
